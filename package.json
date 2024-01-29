@@ -3,8 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "./initialize.sh && astro dev",
-    "start": "./initialize.sh && astro dev",
+    "init": "node initialize.js",
+    "dev": "npm run init && astro dev",
+    "start": "npm run init && astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
@@ -16,5 +17,8 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "dotenv": "^16.4.1"
+  }
 }
