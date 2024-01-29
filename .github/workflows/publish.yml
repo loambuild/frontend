@@ -1,0 +1,26 @@
+name: Publish cleaned version to `main`
+
+on:
+  push:
+    branches:
+      - dev
+
+# Sets permissions of the GITHUB_TOKEN
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build and Push
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./publish.sh
+      - name: Push
+        uses: s0/git-publish-subdir-action@v2.6.0
+        env:
+          REPO: self
+          BRANCH: main # The branch name where you want to push the assets
+          FOLDER: dist # The directory where your assets are generated
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+          MESSAGE: "publish: ({sha}) {msg}" # The commit message
