@@ -1,15 +1,18 @@
 {
-  "name": "",
+  "name": "lol",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
+    "dev": "./initialize.sh && astro dev",
+    "start": "./initialize.sh && astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "astro": "^4.2.4"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
