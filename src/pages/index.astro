@@ -2,7 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import helloWorld from "../contracts/soroban_hello_world_contract";
-const { result: greeting } = await helloWorld.hello({ to: "you" });
+const { result } = await helloWorld.hello({ to: "you" });
+const greeting = result.join(" ");
 ---
 
 <Layout title={greeting}>
@@ -35,7 +36,7 @@ const { result: greeting } = await helloWorld.hello({ to: "you" });
 				</linearGradient>
 			</defs>
 		</svg>
-		<h1>{greeting.join(" ")}</h1>
+		<h1>{greeting}</h1>
 		<p class="instructions">
 			To get started, open the directory <code>src/pages</code> in your project.<br />
 			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
