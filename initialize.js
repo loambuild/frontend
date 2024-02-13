@@ -20,8 +20,8 @@ function exe(command) {
 }
 
 function fund_all() {
+  // will also fund the account since .env sets SOROBAN_NETWORK_PASSPHRASE && SOROBAN_RPC_URL
   exe(`${soroban} keys generate ${process.env.SOROBAN_ACCOUNT}`);
-  exe(`${soroban} keys fund ${process.env.SOROBAN_ACCOUNT}`);
 }
 
 function build_all() {
