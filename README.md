@@ -78,6 +78,24 @@ Here's a full list of everything `loam dev` will do:
          - **modify `networks` export** for each, to include all networks specified in `environments.toml`
        - **import** the contracts for use in the frontend. That is, create gitignored `src/contracts/*` files for each, which import the `Contract` class and `networks` object and export an instantiated version for the current environment's network.
 
+   ```mermaid
+   flowchart TD
+     A[loam dev] -->|network| B(run-locally?)
+     B -->|yes| C[start]
+     B -->|no| D[check]
+     A -->|accounts| E(mainnet?)
+     E -->|yes| F[check]
+     E -->|no| G[create & fund]
+     A -->|contracts| H(local?)
+     H -->|yes| I(workspace = true?)
+     I -->|yes| J[build, deploy, init]
+     I -->|no| K[spoon]
+     H -->|no| L[check]
+     J --> M[bind & import]
+     K --> M
+     L --> M
+   ```
+
 3. Watch the `contracts/*` directory for changes, re-running all startup logic when anything changes, to make sure the frontend stays up-to-date with the contracts.
 
 `loam build` flows easily out of this.
