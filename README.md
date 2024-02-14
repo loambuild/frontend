@@ -59,24 +59,6 @@ Here's a full list of everything `loam dev` will do:
 
 2. Inspect the `environments.toml` file and get things to the specified predictable starting state:
 
-   - connect to the specified network, or run it with `soroban network start`
-   - create and/or fund accounts
-     → on mainnet, will instead check that accounts exist and are funded
-   - For specified contracts:
-     - For an environment which uses a **local network**:
-       - For contracts which have **`workspace = true`**:
-         - **build** & **deploy** the contracts, saving the IDs so that on subsequent runs it can instead verify contracts are deployed and update them if needed.
-         - **initialize** the contracts: runs any specified `init` commands (see `environments.toml` below)
-       - [Beyond the scope of initial grant]: For contracts which instead specify an `environment`, `address`, and `at-ledger-sequence`:
-         - **spoon** the specified contract's state, at time of specified ledger sequence, into the current environment's network.
-     - For an environment which uses **futurenet**, **testnet**, **mainnet** or some other live network:
-       - **check** that the contracts exist on that network. Note: Loam does not yet have plans to help with deploying the contracts. It only checks that you have successfully done so yourself.
-     - For all environments:
-       - **bind** the contracts
-         - run `soroban contract bindings typescript` for each
-         - save each generated library to gitignored `packages/*`, part of the [NPM workspace](https://docs.npmjs.com/cli/v10/using-npm/workspaces), using the name specified in `environments.toml`
-         - **modify `networks` export** for each, to include all networks specified in `environments.toml`
-       - **import** the contracts for use in the frontend. That is, create gitignored `src/contracts/*` files for each, which import the `Contract` class and `networks` object and export an instantiated version for the current environment's network.
 
    ```mermaid
    flowchart TD
@@ -95,6 +77,25 @@ Here's a full list of everything `loam dev` will do:
      K --> M
      L --> M
    ```
+
+   - connect to the specified network, or run it with `soroban network start`
+   - create and/or fund accounts
+     → on mainnet, will instead check that accounts exist and are funded
+   - For specified contracts:
+     - For an environment which uses a **local network**:
+       - For contracts which have **`workspace = true`**:
+         - **build** & **deploy** the contracts, saving the IDs so that on subsequent runs it can instead verify contracts are deployed and update them if needed.
+         - **initialize** the contracts: runs any specified `init` commands (see `environments.toml` below)
+       - [Beyond the scope of initial grant]: For contracts which instead specify an `environment`, `address`, and `at-ledger-sequence`:
+         - **spoon** the specified contract's state, at time of specified ledger sequence, into the current environment's network.
+     - For an environment which uses **futurenet**, **testnet**, **mainnet** or some other live network:
+       - **check** that the contracts exist on that network. Note: Loam does not yet have plans to help with deploying the contracts. It only checks that you have successfully done so yourself.
+     - For all environments:
+       - **bind** the contracts
+         - run `soroban contract bindings typescript` for each
+         - save each generated library to gitignored `packages/*`, part of the [NPM workspace](https://docs.npmjs.com/cli/v10/using-npm/workspaces), using the name specified in `environments.toml`
+         - **modify `networks` export** for each, to include all networks specified in `environments.toml`
+       - **import** the contracts for use in the frontend. That is, create gitignored `src/contracts/*` files for each, which import the `Contract` class and `networks` object and export an instantiated version for the current environment's network.
 
 3. Watch the `contracts/*` directory for changes, re-running all startup logic when anything changes, to make sure the frontend stays up-to-date with the contracts.
 
