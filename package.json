@@ -9,12 +9,13 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "postinstall": "npm install -g loam-cli"
+    "loam": "./node_modules/.bin/loam-cli"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
     "astro": "^4.2.4",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "loam-cli": "0.9.4"
   },
   "workspaces": [
     "packages/*"
