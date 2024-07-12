@@ -1,97 +1,51 @@
-[development]
-# If given `run-locally = true`, `network` will be launched with:
-#
-#     soroban network start local
-#
-# You can use a shorthand version for `local`:
-#
-#     network = "local"
-network = { name = "local", run-locally = true }
+### Development environment configuration
+[development.network]
+rpc-url = "http://localhost:8000"
+network-passphrase = "Soroban Development Network ; September 2021"
 
-accounts = [
-  # If you provide a string, an identity with this name will be created with
-  # `soroban keys`, which saves the mnemonic in `.soroban/identity`.
-  "alice",
-  
-  # Alternatively, you can provide an expanded definition.
-  #   - `name`: the only required field, same behavior as string value above.
-  #   - `default`: whether to use this account as the `--source` for commands
-  #     that need one. See `init` below. Can only have one default.
-  #   - `mnemonic`: a BIP39 mnemonic for the account. If not provided, a new
-  #     keypair will be generated and saved in the `.soroban/identity` directory.
-  { name = "me", default = true, mnemonic = "boots and cats and boots and cats..." },
-]
-default-account = "me"
+# The rpc-url and network-passphrase are required for all environments.
+# Coming soon: If given `run-locally = true`, the `network` will be launched with:
+# `stellar network container start local`
+
+[[development.accounts]]
+name = "me"
+default = true
+
+# You can provide an expanded definition for each account:
+#   - `name`: the only required field, an identity with this name will be created
+#      with `stellar keys`.
+#   - `default`: whether to use this account as the `--source` for commands
+#     that need one. Only one default is allowed. The keypair will be generated
+#      and saved in the `.soroban/identity` directory.
+# Coming Soon: # If you provide just a string, an identity with this name will be created with
+# `soroban keys`, which saves the mnemonic in `.soroban/identity`. E.g.: "alice"
+
 
 [development.contracts]
-# Auto-build, -deploy, -bind, and -import all contracts in Cargo workspace
+example-core = { workspace = true }
+example-status-message = { workspace = true }
+
+# List each contract individually.
+# `workspace = true` indicates that this project is part of the local cargo workspace.
+# In dev & test environments, workspace contracts will be automatically built, deployed, initialized, bound, and imported.
+# Coming Soon: Auto-build, -deploy, -bind, and -import all contracts in Cargo workspace
 # Only supported in development & test environments
-cargo-workspace = true
+# cargo-workspace = true
 
-# Instead of `cargo-workspace`, you can list each contract individually.
-# `workspace = true` indicates that this project is part of the local cargo
-# workspace. In dev & test environments, workspace contracts will be
-# automatically built, deployed, initialized, bound, and imported.
-soroban-atomic-swap-contract = { workspace = true }
-soroban-auth-contract = { workspace = true }
-soroban-errors-contract = { workspace = true }
-soroban-hello-world-contract = { workspace = true }
-soroban-increment-contract = { workspace = true }
-
-# If contracts need more settings, you can list them the long way.
-[development.contracts.soroban-token-contract]
-workspace = true
-
-# Initialization steps for the contract, to be run after deployment.
+# Coming Soon: Initialization steps for the contract, to be run after deployment.
 # Only supported in `development` and `test` environments.
 # You only need to specify the slop (everything after the `--`) for calls to
 # `soroban contract invoke` for the given contract. Uses `default-account`
 # by default; to use another, prefix with `SOROBAN_ACCOUNT=other-account`.
-init = """
-initialize --symbol ABND --decimal 7 --name abundance --admin me
-mint --amount 2000000 --to me"
-"""
+# init = """
+# initialize --symbol ABND --decimal 7 --name abundance --admin me
+# mint --amount 2000000 --to me"
+# """
 
-# Specify live contracts to bind & import in this project using the given name.
+# Coming Soon: Specify live contracts to bind & import in this project using the given name.
 # During initialization, these contracts will also be "spooned" into the development network,
 # meaning that their data will match the live network at the given sequence number.
-[development.contracts.eurc]
-environment = "production"
-address = "C..."
-at-ledger-sequence = 50153603
-
-
-[staging]
-rpc-url = "https://soroban-testnet.stellar.org"
-network-passphrase = "Test SDF Network ; September 2015"
-
-# or, to run your own network locally:
-network = { name = "testnet", run-locally = true }
-
-accounts = [
-  { name = "testnet-user", default = true },
-]
-
-[staging.contracts]
-soroban-atomic-swap-contract = "C123..."
-soroban-auth-contract = "C234..."
-soroban-errors-contract = "C345..."
-soroban-hello-world-contract = "C456..."
-soroban-increment-contract = "C567..."
-soroban-token-contract = "C678..."
-eurc = "C789..."
-
-[production]
-rpc-url = "https://our-custom-rpc-provider.cool"
-network-passphrase = "Public Global Stellar Network ; September 2015"
-default-account = "official-team-account"
-
-[production.contracts]
-soroban-atomic-swap-contract = "C987..."
-soroban-auth-contract = "C876..."
-soroban-errors-contract = "C765..."
-soroban-hello-world-contract = "C654..."
-soroban-increment-contract = "C543..."
-soroban-token-contract = "C432..."
-eurc = "C321..."
-
+# [development.contracts.eurc]
+# environment = "production"
+# address = "C..."
+# at-ledger-sequence = 50153603
