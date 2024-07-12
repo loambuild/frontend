@@ -48,4 +48,50 @@ const { title } = Astro.props;
 			Courier New,
 			monospace;
 	}
+  button {
+    border: 1px solid rgb(var(--accent));
+    background-color: #23262d;
+    background-image: none;
+    background-size: 400%;
+    border-radius: 7px;
+    color: white;
+    cursor: pointer;
+    font-size: inherit;
+    padding: 0.5rem 1rem;
+    background-position: 100%;
+    transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  button:is(:hover, :focus-within) {
+    color: black;
+    background-position: 0;
+    background-size: 400%;
+    background-image: var(--accent-gradient);
+  }
+  button:is(:disabled) {
+    color: white;
+    background: var(--accent-light);
+    cursor: not-allowed;
+  }
+  button:is(:disabled).loading {
+    background: linear-gradient(-45deg, #ffffff44, #ffffff22);
+    background-size: 200%;
+    animation: loading-gradient 4s linear infinite;
+  }
+  @keyframes loading-gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: -200% 50%;
+    }
+  }
+  .visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
 </style>
