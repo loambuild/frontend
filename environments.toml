@@ -20,7 +20,6 @@ default = true
 # Coming Soon: # If you provide just a string, an identity with this name will be created with
 # `soroban keys`, which saves the mnemonic in `.soroban/identity`. E.g.: "alice"
 
-
 [development.contracts]
 example-core = { workspace = true }
 example-status-message = { workspace = true }
@@ -49,3 +48,39 @@ example-status-message = { workspace = true }
 # environment = "production"
 # address = "C..."
 # at-ledger-sequence = 50153603
+
+### Staging environment configuration
+[staging.network]
+rpc-url = "https://soroban-testnet.stellar.org"
+network-passphrase = "Test SDF Network ; September 2015"
+
+[[staging.accounts]]
+name = "testnet-user"
+default = true
+
+[staging.contracts]
+# soroban-atomic-swap-contract = "C123..."
+# soroban-auth-contract = "C234..."
+# soroban-errors-contract = "C345..."
+# soroban-hello-world-contract = "C456..."
+# soroban-increment-contract = "C567..."
+# soroban-token-contract = "C678..."
+# eurc = "C789..."
+
+### Production environment configuration
+[production.network]
+rpc-url = "https://our-custom-rpc-provider.cool"
+network-passphrase = "Public Global Stellar Network ; September 2015"
+
+[[production.accounts]]
+name = "official-team-account"
+default = true
+
+[production.contracts]
+# soroban-atomic-swap-contract = "C987..."
+# soroban-auth-contract = "C876..."
+# soroban-errors-contract = "C765..."
+# soroban-hello-world-contract = "C654..."
+# soroban-increment-contract = "C543..."
+# soroban-token-contract = "C432..."
+# eurc = "C321..."
