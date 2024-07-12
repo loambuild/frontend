@@ -1,11 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
-import helloWorld from "../contracts/soroban_hello_world_contract";
+import helloWorld from "../contracts/hello_world";
 const { result } = await helloWorld.hello({ to: "you" });
 const greeting = result.join(" ");
 ---
 
+<script is:inline>var global = global || window;</script>
 <Layout title={greeting}>
 	<main>
 		<svg
