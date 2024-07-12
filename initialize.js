@@ -1,17 +1,26 @@
 import 'dotenv/config';
-import { mkdirSync, readdirSync, statSync, writeFileSync } from 'fs';
+import { mkdirSync, writeFileSync, rmSync, readFileSync } from 'fs';
 import { execSync } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { sync as glob } from 'glob';
 
-console.log("###################### Initializing ########################");
+// Load environment variables starting with PUBLIC_ into the environment,
+// so we don't need to specify duplicate variables in .env
+for (const key in process.env) {
+  if (key.startsWith('PUBLIC_')) {
+    process.env[key.substring(7)] = process.env[key];
+  }
+}
+
+console.log('###################### Initializing ########################');
 
 // Get dirname (equivalent to the Bash version)
 const __filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(__filename);
 
 // variable for later setting pinned version of soroban in "$(dirname/target/bin/soroban)"
-const soroban = "soroban"
+const cli = 'stellar';
 
 // Function to execute and log shell commands
 function exe(command) {
@@ -19,15 +28,19 @@ function exe(command) {
   execSync(command, { stdio: 'inherit' });
 }
 
-function fund_all() {
-  // will also fund the account since .env sets SOROBAN_NETWORK_PASSPHRASE && SOROBAN_RPC_URL
-  exe(`${soroban} keys generate ${process.env.SOROBAN_ACCOUNT}`);
+function fundAll() {
+  exe(`${cli} keys generate ${process.env.SOROBAN_ACCOUNT}`);
 }
 
-function build_all() {
-  exe(`rm ${dirname}/target/wasm32-unknown-unknown/release/*.wasm`);
-  exe(`rm ${dirname}/target/wasm32-unknown-unknown/release/*.d`);
-  exe(`${soroban} contract build`);
+function removeFiles(pattern) {
+  console.log(`remove ${pattern}`);
+  glob(pattern).forEach((entry) => rmSync(entry));
+}
+
+function buildAll() {
+  removeFiles(`${dirname}/target/wasm32-unknown-unknown/release/*.wasm`);
+  removeFiles(`${dirname}/target/wasm32-unknown-unknown/release/*.d`);
+  exe(`${cli} contract build`);
 }
 
 function filenameNoExtension(filename) {
@@ -35,68 +48,70 @@ function filenameNoExtension(filename) {
 }
 
 function deploy(wasm) {
-  exe(`(${soroban} contract deploy --wasm ${wasm} --ignore-checks) > ${dirname}/.soroban/contract-ids/${filenameNoExtension(wasm)}.txt`);
+  exe(`${cli} contract deploy --wasm ${wasm} --ignore-checks --alias ${filenameNoExtension(wasm)}`);
 }
 
-function deploy_all() {
+function deployAll() {
   const contractsDir = `${dirname}/.soroban/contract-ids`;
   mkdirSync(contractsDir, { recursive: true });
 
-  const wasmFiles = readdirSync(`${dirname}/target/wasm32-unknown-unknown/release`).filter(file => file.endsWith('.wasm'));
-  
-  wasmFiles.forEach(wasmFile => {
-    deploy(`${dirname}/target/wasm32-unknown-unknown/release/${wasmFile}`);
-  });
+  const wasmFiles = glob(`${dirname}/target/wasm32-unknown-unknown/release/*.wasm`);
+
+  wasmFiles.forEach(deploy);
 }
 
-function bind(contract) {
-  const filenameNoExt = filenameNoExtension(contract);
-  exe(`${soroban} contract bindings typescript --contract-id $(cat ${contract}) --output-dir ${dirname}/packages/${filenameNoExt} --overwrite`);
+function contracts() {
+  const contractFiles = glob(`${dirname}/.soroban/contract-ids/*.json`);
+
+  return contractFiles
+    .map(path => ({
+      alias: filenameNoExtension(path),
+      ...JSON.parse(readFileSync(path))
+    }))
+    .filter(data => data.ids[process.env.SOROBAN_NETWORK_PASSPHRASE])
+    .map(data => ({alias: data.alias, id: data.ids[process.env.SOROBAN_NETWORK_PASSPHRASE]}));
 }
 
-function bind_all() {
-  const contractIdsDir = `${dirname}/.soroban/contract-ids`;
-  const contractFiles = readdirSync(contractIdsDir);
-
-  contractFiles.forEach(contractFile => {
-    const contractPath = path.join(contractIdsDir, contractFile);
-    if (statSync(contractPath).size > 0) {  // Check if file is not empty
-      bind(contractPath);
-    }
-  });
+function bind({alias, id}) {
+  exe(`${cli} contract bindings typescript --contract-id ${id} --output-dir ${dirname}/packages/${alias} --overwrite`);
 }
 
-function importContract(contract) {
-  const filenameNoExt = filenameNoExtension(contract);
-  const outputPath = `${dirname}/src/contracts/${filenameNoExt}.ts`;
-  const importContent = `import * as Client from '${filenameNoExt}';\n` +
-                        `import { rpcUrl } from './util';\n\n` +
-                        `export default new Client.Contract({\n` +
-                        `  ...Client.networks.standalone,\n` +
-                        `  rpcUrl,\n` +
-                        `});\n`;
-  
+function bindAll() {
+  contracts().forEach(bind);
+}
+
+function importContract({id, alias}) {
+  const outputDir = `${dirname}/src/contracts/`;
+
+  mkdirSync(outputDir, { recursive: true });
+
+  const importContent =
+    `import * as Client from '${alias}';\n` +
+    `import { rpcUrl } from './util';\n\n` +
+    `export default new Client.Client({\n` +
+    `  ...Client.networks.${process.env.SOROBAN_NETWORK},\n` +
+    `  rpcUrl,\n` +
+    `${
+      process.env.SOROBAN_NETWORK === "local" || "standalone"
+        ? `  allowHttp: true,\n`
+        : null
+    }` +
+    `});\n`;
+
+  const outputPath = `${outputDir}/${alias}.ts`;
+
   writeFileSync(outputPath, importContent);
-  console.log(`Created import for ${filenameNoExt}`);
+
+  console.log(`Created import for ${alias}`);
 }
 
-function import_all() {
-  const contractIdsDir = `${dirname}/.soroban/contract-ids`;
-  const contractFiles = readdirSync(contractIdsDir);
-
-  contractFiles.forEach(contractFile => {
-    const contractPath = path.join(contractIdsDir, contractFile);
-    if (statSync(contractPath).size > 0) {  // Check if file is not empty
-      importContract(contractPath);
-    }
-  });
+function importAll() {
+  contracts().forEach(importContract);
 }
-
-exe('echo $SOROBAN_ACCOUNT $SOROBAN_NETWORK_PASSPHRASE $SOROBAN_RPC_URL');
 
 // Calling the functions (equivalent to the last part of your bash script)
-fund_all();
-build_all();
-deploy_all();
-bind_all();
-import_all();
+fundAll();
+buildAll();
+deployAll();
+bindAll();
+importAll();
