@@ -8,7 +8,8 @@
     "start": "npm run init && astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "postinstall": "npm install -g loam-cli"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
