@@ -13,6 +13,7 @@ mkdir -p dist
 
 # Copy desired files into `dist`
 rsync -av --progress .vscode .env.example .gitattributes .gitignore * \
+  --include="src/contracts" \
   --exclude="dist" \
   --exclude="contracts" \
   --exclude="LICENSE" \
