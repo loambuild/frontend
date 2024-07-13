@@ -3,25 +3,22 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "init": "node initialize.js",
-    "dev": "npm run init && astro dev",
-    "start": "npm run init && astro dev",
+    "dev": "parallelshell \"npx loam dev\" \"astro dev\"",
+    "start": "parallelshell \"npx loam dev\" \"astro dev\"",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro",
-    "loam": "./node_modules/.bin/loam-cli"
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.4.1",
-    "astro": "^4.2.4",
-    "typescript": "^5.3.3",
-    "loam-cli": "0.9.4"
+    "astro": "astro"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
+    "@astrojs/check": "^0.4.1",
+    "astro": "^4.2.4",
     "dotenv": "^16.4.1",
-    "glob": "^10.4.1"
+    "glob": "^10.4.1",
+    "loam-cli": "0.9.4",
+    "parallelshell": "^3.0.2",
+    "typescript": "^5.3.3"
   }
 }
