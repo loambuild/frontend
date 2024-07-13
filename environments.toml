@@ -1,7 +1,7 @@
 ### Development environment configuration
 [development.network]
-rpc-url = "http://localhost:8000"
-network-passphrase = "Soroban Development Network ; September 2021"
+rpc-url = "http://localhost:8000/rpc"
+network-passphrase = "Standalone Network ; February 2017"
 
 # The rpc-url and network-passphrase are required for all environments.
 # Coming soon: If given `run-locally = true`, the `network` will be launched with:
