@@ -8,17 +8,20 @@
     "start": "npm run init && astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "loam": "./node_modules/.bin/loam-cli"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
     "astro": "^4.2.4",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "loam-cli": "0.9.4"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
-    "dotenv": "^16.4.1"
+    "dotenv": "^16.4.1",
+    "glob": "^10.4.1"
   }
 }
