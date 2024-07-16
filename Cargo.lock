@@ -455,7 +455,6 @@ name = "example-core"
 version = "0.0.0"
 dependencies = [
  "loam-sdk",
- "loam-soroban-sdk",
  "loam-subcontract-core",
 ]
 
@@ -714,7 +713,7 @@ checksum = "4ec2a862134d2a7d32d7983ddcdd1c4923530833c9f2ea1a44fc5fa473989058"
 
 [[package]]
 name = "loam-build"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "cargo_metadata",
  "thiserror",
@@ -723,7 +722,7 @@ dependencies = [
 
 [[package]]
 name = "loam-sdk"
-version = "0.6.11"
+version = "0.6.12"
 dependencies = [
  "loam-sdk-macro",
  "loam-soroban-sdk",
@@ -731,7 +730,7 @@ dependencies = [
 
 [[package]]
 name = "loam-sdk-macro"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "Inflector",
  "cargo_metadata",
@@ -747,7 +746,7 @@ dependencies = [
 
 [[package]]
 name = "loam-soroban-sdk"
-version = "0.6.11"
+version = "0.6.12"
 dependencies = [
  "loam-sdk-macro",
  "soroban-sdk",
@@ -755,7 +754,7 @@ dependencies = [
 
 [[package]]
 name = "loam-subcontract-core"
-version = "0.7.3"
+version = "0.7.5"
 dependencies = [
  "loam-sdk",
 ]
