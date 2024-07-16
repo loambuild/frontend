@@ -6,7 +6,6 @@ members = [
 
 [workspace.dependencies]
 loam-sdk = { path = "/Users/chadoh/code/loam/sdk/crates/loam-sdk" }
-loam-soroban-sdk = { path = "/Users/chadoh/code/loam/sdk/crates/loam-soroban-sdk" }
 loam-subcontract-core = { path = "/Users/chadoh/code/loam/sdk/crates/loam-subcontract-core" }
 
 [profile.release]
