@@ -1,12 +1,10 @@
 [workspace]
 resolver = "2"
-members = [
-  "contracts/*",
-]
+members = ["contracts/*"]
 
 [workspace.dependencies]
-loam-sdk = { path = "/Users/chadoh/code/loam/sdk/crates/loam-sdk" }
-loam-subcontract-core = { path = "/Users/chadoh/code/loam/sdk/crates/loam-subcontract-core" }
+loam-sdk = "0.6.12"
+loam-subcontract-core = "0.7.5"
 
 [profile.release]
 opt-level = "z"
