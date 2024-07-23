@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
+import logo from "../images/LogoWDropShadow.svg";
+import github from "../images/github.svg";
 import coreExample from "../contracts/example_core";
 import statusMessage from "../contracts/example_status_message";
 
@@ -15,85 +17,124 @@ console.log({ coreMethods, statusMessageMethods });
 </script>
 <Layout title="Hello Loam">
   <main>
-    <h1>Hello Loam</h1>
-    <p class="instructions">
-      To get started, open the directory <code>src/pages</code> in your project.<br
-      />
-      <strong>Code Challenge:</strong> Tweak the "Hello Loam" message above.
-    </p>
-    <ul role="list" class="link-card-grid">
-      <Card
-        href="https://docs.astro.build/"
-        title="Astro Docs"
-        body="Learn how Astro works and explore the official API docs."
-      />
-      <Card
-        href="https://loam.build/"
-        title="Loam Homepage"
-        body="Learn about Loam."
-      />
-    </ul>
-  </main>
-</Layout>
+    <div class="banner">
+      <nav>
+        <a href="https://github.com/loambuild">
+          <img src={github.src} alt="GitHub" />
+        </a>
+      </nav>
 
-<style>
-  main {
-    margin: auto;
-    padding: 1rem;
-    width: 800px;
-    max-width: calc(100% - 2rem);
-    color: white;
-    font-size: 20px;
-    line-height: 1.6;
-  }
-  .astro-a {
-    position: absolute;
-    top: -32px;
-    left: 50%;
-    transform: translatex(-50%);
-    width: 220px;
-    height: auto;
-    z-index: -1;
-  }
-  h1 {
-    font-size: 4rem;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    margin-bottom: 1em;
-  }
-  .text-gradient {
-    background-image: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 400%;
-    background-position: 0%;
-  }
-  .instructions {
-    margin-bottom: 2rem;
-    border: 1px solid rgba(var(--accent-light), 25%);
-    background: linear-gradient(
-      rgba(var(--accent-dark), 66%),
-      rgba(var(--accent-dark), 33%)
-    );
-    padding: 1.5rem;
-    border-radius: 8px;
-  }
-  .instructions code {
-    font-size: 0.8em;
-    font-weight: bold;
-    background: rgba(var(--accent-light), 12%);
-    color: rgb(var(--accent-light));
-    border-radius: 4px;
-    padding: 0.3em 0.4em;
-  }
-  .instructions strong {
-    color: rgb(var(--accent-light));
-  }
-  .link-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-    gap: 2rem;
-    padding: 0;
-  }
-</style>
+      <div class="container">
+        <h1>
+          <img src={logo.src} alt="LOAM" />
+        </h1>
+        <h2>Hello Loam</h2>
+        <div class="intro">
+          <p class="instructions">
+            To get started, open the directory <code>src/pages</code> in your project.<br
+            />
+          </p>
+          <ul role="list" class="link-card-grid">
+            <Card
+              href="https://docs.astro.build/"
+              title="Astro Docs"
+              body="Learn how Astro works and explore the official API docs."
+            />
+            <Card
+              href="https://loam.build/"
+              title="Loam Homepage"
+              body="Learn about Loam."
+            />
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    nav {
+      display: flex;
+      justify-content: flex-end;
+      overflow: visible;
+      padding: 1em;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    nav img {
+      height: 1em;
+    }
+    nav a {
+      opacity: 0.4;
+      margin-left: 0.75em;
+      border-bottom: 1px solid transparent;
+    }
+    .banner {
+      background-image: url(../images/mycelium.png);
+      background-size: calc(max(100%, 1920px)) 100%;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+    }
+    .banner > .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      margin: auto;
+      padding: 0 1.25rem;
+      max-width: 75ch;
+    }
+    .banner > .container > h1,
+    .banner > .container > h2 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      justify-content: center;
+    }
+    h1 {
+      height: 12%;
+    }
+    h1 img {
+      height: 75%;
+    }
+    h2 {
+      height: 33%;
+      font-size: 5em;
+      text-align: center;
+      max-width: 10em;
+      max-width: 100%;
+    }
+    .instructions {
+      margin-bottom: 2rem;
+      /* border: 1px solid rgba(var(--accent-light), 25%); */
+      background-color: var(--yellow);
+      color: var(--darkest-green);
+      padding: 1.5rem;
+      border-radius: 8px;
+    }
+    .link-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+      gap: 2rem;
+      padding: 0;
+    }
+    .intro {
+      height: 75%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .text-gradient {
+      background-image: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 400%;
+      background-position: 0%;
+    }
+  </style>
+</Layout>
