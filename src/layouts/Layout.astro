@@ -1,6 +1,6 @@
 ---
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
@@ -8,90 +8,145 @@ const { title } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 <style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
-  button {
-    border: 1px solid rgb(var(--accent));
-    background-color: #23262d;
-    background-image: none;
-    background-size: 400%;
-    border-radius: 7px;
-    color: white;
+  @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap");
+  :root {
+    --yellow: rgb(224, 189, 63);
+    --shadow: rgba(66, 82, 57, 0.29);
+    --maroon: #7c3d24;
+    --darkest-green: rgb(37, 44, 31);
+    --dark-green: #425239;
+    --light-green: #8db73f;
+    --lavendar: #a39dae;
+    --fg: white;
+    --gray: var(--lavendar);
+    --link: var(--lavendar);
+    --black: rgb(21, 19, 15);
+    --heading: var(--yellow);
+    --bg: var(--darkest-green);
+  }
+  html {
+    background-color: var(--darkest-green);
+    box-sizing: border-box;
+    color: var(--fg);
+    font-size: 18px;
+    font-family: Quicksand, system-ui, sans-serif;
+  }
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--heading);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  h1,
+  h2 {
+    font-family: "Amatic SC", serif;
+    font-weight: 700;
+    font-size: 2.2em;
+  }
+
+  @media (min-width: 420px) {
+    html {
+      font-size: 22px;
+    }
+  }
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  a {
+    color: var(--link);
+    text-decoration: none;
+  }
+  a:focus,
+  a:hover {
+    border-bottom: 1px solid var(--yellow);
+  }
+  button,
+  .button {
+    background: var(--darkest-green);
+    border-radius: 100em;
+    border: 4px solid var(--yellow);
+    color: var(--fg);
     cursor: pointer;
-    font-size: inherit;
-    padding: 0.5rem 1rem;
-    background-position: 100%;
-    transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    font: inherit;
+    padding: 0.5em 1em;
+    position: relative;
+    transition: transform 50ms;
   }
-  button:is(:hover, :focus-within) {
-    color: black;
-    background-position: 0;
-    background-size: 400%;
-    background-image: var(--accent-gradient);
+  button:hover,
+  button:focus,
+  .button:hover,
+  .button:focus {
+    background: var(--yellow);
+    border-width: 4px;
+    color: var(--darkest-green);
+    transform: translateY(-1px);
   }
-  button:is(:disabled) {
-    color: white;
-    background: var(--accent-light);
-    cursor: not-allowed;
+  button:active,
+  .button:active {
+    transform: translateY(3px);
   }
-  button:is(:disabled).loading {
-    background: linear-gradient(-45deg, #ffffff44, #ffffff22);
-    background-size: 200%;
-    animation: loading-gradient 4s linear infinite;
+  code {
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    font-family: monospace;
+    white-space: break-spaces;
+    background-color: #6e768166;
+    border-radius: 6px;
   }
-  @keyframes loading-gradient {
-    0% {
-      background-position: 0% 50%;
+  .container {
+    margin: auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    max-width: 75ch;
+  }
+  .columns img {
+    display: none;
+  }
+  @media (min-width: 750px) {
+    .columns img {
+      display: block;
+      max-width: 100%;
     }
-    100% {
-      background-position: -200% 50%;
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 1rem 2rem;
+      align-items: center;
     }
-  }
-  .visually-hidden {
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
   }
 </style>
