@@ -21,8 +21,8 @@ default = true
 # `soroban keys`, which saves the mnemonic in `.soroban/identity`. E.g.: "alice"
 
 [development.contracts]
-example_core = { workspace = true }
-example_status_message = { workspace = true }
+example_core = { workspace = true, client = true }
+example_status_message = { workspace = true, client = true }
 
 # List each contract individually.
 # `workspace = true` indicates that this project is part of the local cargo workspace.
