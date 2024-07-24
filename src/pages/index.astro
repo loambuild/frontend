@@ -120,11 +120,24 @@ console.log({ coreMethods, statusMessageMethods });
     }
     .instructions {
       margin-bottom: 2rem;
-      /* border: 1px solid rgba(var(--accent-light), 25%); */
-      background-color: var(--yellow);
-      color: var(--darkest-green);
+      border: 1px solid rgba(var(--accent-light), 25%);
+      background: linear-gradient(
+        rgba(var(--accent-dark), 66%),
+        rgba(var(--accent-dark), 33%)
+      );
       padding: 1.5rem;
-      border-radius: 8px;
+      border-radius: 7px;
+    }
+    .instructions code {
+      font-size: 0.8em;
+      font-weight: bold;
+      background: rgba(var(--accent-light), 12%);
+      color: rgb(var(--accent-light));
+      border-radius: 4px;
+      padding: 0.3em 0.4em;
+    }
+    .instructions strong {
+      color: rgb(var(--accent-light));
     }
     .link-card-grid {
       display: grid;
